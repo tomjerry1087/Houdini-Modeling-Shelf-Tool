@@ -1,3 +1,10 @@
+# 1. Set view to /obj level
+# 2. Select geometry to separate
+# 3. Click this shelf tool
+
+# It will hide original object, and create geometry node for each separated part.
+# You can then stash those geometries if you no longer need to modify them
+
 import toolutils
 scene_viewer=toolutils.sceneViewer()
 selected_objects=list(scene_viewer.selectObjects(
