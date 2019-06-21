@@ -2,8 +2,9 @@
 # 2. Select geometry to separate
 # 3. Click this shelf tool
 
-# It will hide original object, and create geometry node for each separated part.
+# It will hide original object, and create geometry node for each separated part
 # You can then stash those geometries if you no longer need to modify them
+# Now, you are free delete original geometry
 
 import toolutils
 scene_viewer=toolutils.sceneViewer()
@@ -16,15 +17,17 @@ if len(selected_objects)==0:
 for _obj in selected_objects:
 	_obj.setDisplayFlag(False)
 	dis_sop=_obj.displayNode()
-	conn_sop=dis_sop.createOutputNode('connectivity','connectivity',run_init_scripts=False)
-	conn_sop.parm('attribname').set('class')
-	part_sop=conn_sop.createOutputNode('partition','partition',run_init_scripts=False)
-	part_sop.parm('rule').set('`@class`')
+	conn_sop=dis_sop.createOutputNode("connectivity","connectivity",run_init_scripts=False)
+	conn_sop.parm("attribname").set("class")
+	part_sop=conn_sop.createOutputNode("partition","partition",run_init_scripts=False)
+	part_sop.parm("rule").set("`@class`")
 	part_sop.setDisplayFlag(True)
 	part_sop.setRenderFlag(True)
 	groups=part_sop.geometry().primGroups()
 	for group in groups:
-		new_obj=_obj.createOutputNode('geo',group.name(),run_init_scripts=False)
-		merge=new_obj.createNode('object_merge')
-		merge.parm('objpath1').set(part_sop.path())
-		merge.parm('group1').set(group.name())
+		new_obj=_obj.createOutputNode("geo",group.name(),run_init_scripts=False)
+		new_obj.setInput(0,None)
+		merge=new_obj.createNode("object_merge")
+		merge.parm("objpath1").set(part_sop.path())
+		merge.parm("group1").set(group.name())
+	_obj.setSelected(True,True)
