@@ -22,7 +22,6 @@ for _obj in selected_objects:
 	dis_sop=_obj.displayNode()
 	stash_node=_obj.createNode("stash")
 	stash_node.setPosition(dis_sop.position())
-	this_output_conns=dis_sop.outputConnections()
 	this_output=dis_sop.outputs()
 	for _output in this_output:
 		curr_inputs=_output.inputs()
@@ -30,6 +29,6 @@ for _obj in selected_objects:
 			if _inp==dis_sop:
 				_output.setInput(_i,stash_node)
 	stash_node.setInput(0,dis_sop)
-	stash_node.parm('stashinput').pressButton()
+	stash_node.parm("stashinput").pressButton()
 	stash_inputs=stash_node.inputs()
 	delNodes(stash_inputs)
